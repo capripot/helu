@@ -1,7 +1,7 @@
 class Helu
   
   attr_reader :product_id
-  attr_accessor :storage, :winning, :restore, :fail
+  attr_accessor :storage, :winning, :restore, :fail, :delegate
 
   class <<self
     # see product_info_fetcher.rb for info
@@ -44,6 +44,7 @@ class Helu
     else
       @fail.call(transaction)
     end
+    @delegate.didFinishTransaction(transaction, wasSuccessful) if @delegate && @delegate.respond_to?(didFinishTransaction)
   end
 
   def completeTransaction(transaction)
